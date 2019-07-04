@@ -1,4 +1,4 @@
 # PowerShellProject1
 Random
 
-Temop testing project in PowerShell and GiutHub and Visual Studio
+Temp testing project in PowerShell and GiutHub and Visual Studio
