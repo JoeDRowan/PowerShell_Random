@@ -1,4 +1,5 @@
 ﻿
+#region Functions
 function CalculateRandom ($Num, $Start, $End)
 {
 # Feed in $Start and $End but don't use them yet
@@ -42,6 +43,7 @@ function Output ($RandomNumbers, $HowManyNumbers, $HighestNumber)
 {
 Write-Host "Here are your $HowManyNumbers random numbers smaller than $HighestNumber :" $RandomNumbers
 }
+#endregion
 
 $Number=Read-Host "Enter number of random numbers to output"
 # $StartRange=Read-Host "Enter starting point of range of numbers"
@@ -50,6 +52,34 @@ $Number=Read-Host "Enter number of random numbers to output"
 $StartRange="1"
 $EndRange="100"
 
-CalculateRandom $Number $StartRange $EndRange
+# Generate Random password using .Net
+$PWBasic = [System.Web.Security.Membership]::GeneratePassword(10,0)
+$PWNonAlphaNumerics = [System.Web.Security.Membership]::GeneratePassword(10,2)
+$PWNonAlphaNumerics18 = [System.Web.Security.Membership]::GeneratePassword(18,2)
+# Replace protected characters
+$PWNonAlphaNumerics18Replace = [System.Web.Security.Membership]::GeneratePassword(18,2) -replace '$|%|&|#'
 
-Read-Host
+Write-Host "Random 10 character PW via System.Web.Security.Membership with only alphanumeric characters is `"$PWBasic`"" 
+Write-Host "Random 10 character PW via System.Web.Security.Membership including non-alphanumeric characters is `"$PWNonAlphaNumerics`"" 
+# Note: Get-Random is not cryptographically secure as it will use the system time as the starting seed probably because it is using the .NET random class
+
+
+CalculateRandom $Number $StartRange $EndRange
+# Ensure Password adheres to complexity limitations
+[Reflection.Assembly]::LoadWithPartialName("System.Web") | out-null
+
+do {
+    $Password = [System.Web.Security.Membership]::GeneratePassword(18,2)
+    $Complexity = 0
+    if ( $Password -cmatch "\d") {$Complexity++}
+    if ( $Password -cmatch "\W") {$Complexity++}
+    if ( $Password -cmatch "[A-Z]") {$Complexity++}
+    if ( $Password -cmatch "[a-z]") {$Complexity++}
+} while ( $Complexity -lt 3 )
+
+Write-host "Password is: [$password]"
+
+# Roll 1200 dice
+1..1200 | ForEach-Object {
+    1..6 | Get-Random
+} | Group-Object | Select-Object Name,Count

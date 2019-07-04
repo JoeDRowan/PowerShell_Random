@@ -6,7 +6,8 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>MyApplication</RootNamespace>
     <AssemblyName>MyApplication</AssemblyName>
-    <Name>PowerShellProject1</Name>
+    <Name>PowerShellRandom</Name>
+    <ProjectHome />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -28,6 +29,9 @@
   <ItemGroup />
   <ItemGroup>
     <Compile Include="Random.ps1" />
+    <Compile Include="RandomAlternate.ps1" />
+    <Compile Include="RandomAlternate1.ps1" />
+    <Compile Include="RandomMoreSecure.ps1" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Target Name="Build" />
